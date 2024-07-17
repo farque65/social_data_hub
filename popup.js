@@ -19,7 +19,8 @@ function displayScrapedData(data) {
   const downloadButton = document.getElementById('download-thread');
   downloadButton.disabled = false;
   downloadButton.addEventListener('click', () => {
-    downloadTextFile(data, 'twitter_thread.txt');
+    let date = new Date().toJSON();
+    downloadTextFile(data, date+'_twitter_thread.txt');
   });
 }
 
