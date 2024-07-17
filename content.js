@@ -1,8 +1,28 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'scrapeTwitterThread') {
-    scrapeAndDownloadThread();
+    let threadData = scrapeTwitterThread();
+    sendResponse({ data: threadData });
   }
 });
+
+function scrapeTwitterThread() {
+  let tweets = [];
+  let tweetElements = document.querySelectorAll('article');
+
+  tweetElements.forEach((tweet) => {
+    let tweetText = tweet.innerText;
+    tweets.push(tweetText);
+  });
+
+  return tweets.join('\n\n');
+}
+
+
+// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+//   if (request.action === 'scrapeTwitterThread') {
+//     scrapeAndDownloadThread();
+//   }
+// });
 
 function scrapeAndDownloadThread() {
   let tweets = [];
