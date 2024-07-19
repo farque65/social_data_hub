@@ -46,3 +46,26 @@ function displayOutput(output) {
 	document.body.style.height = "300px";
 	document.body.style.width = "300px";
 }
+
+document.getElementById('take-screenshot').addEventListener('click', () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.captureVisibleTab(tabs[0].windowId, { format: 'png' }, (dataUrl) => {
+      document.getElementById('screenshot').src = dataUrl;
+    });
+  });
+});
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === 'scrapedData') {
+    displayScrapedData(message.data);
+  }
+});
+
+// Load scraped data from local storage when the popup is opened
+// document.addEventListener('DOMContentLoaded', () => {
+//   chrome.storage.local.get('scrapedData', (result) => {
+//     if (result.scrapedData) {
+//       displayScrapedData(result.scrapedData);
+//     }
+//   });
+// });
